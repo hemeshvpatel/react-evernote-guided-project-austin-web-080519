@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import NoteEditor from './NoteEditor';
-import NoteViewer from './NoteViewer';
-import Instructions from './Instructions';
+import React, { Component } from "react";
+import NoteEditor from "./NoteEditor";
+import NoteViewer from "./NoteViewer";
+import Instructions from "./Instructions";
 
 /*
   Advice: If you cannot figure out how to get this component to work,
@@ -11,21 +11,30 @@ import Instructions from './Instructions';
           refactor to get this Content component to work.
 */
 class Content extends Component {
-  renderContent = () => {
-    if (false) {
-      return <NoteEditor />;
-    } else if (false) {
-      return <NoteViewer />;
+  renderContent = props => {
+    if (this.props.editStatus) {
+      return (
+        <NoteEditor
+          handleSave={this.props.handleSave}
+          currentSelection={this.props.currentSelection}
+        />
+      );
+    } else if (this.props.currentSelection !== 0) {
+      return (
+        <NoteViewer
+          handleEdit={this.props.handleEdit}
+          currentSelection={this.props.currentSelection}
+        />
+      );
     } else {
       return <Instructions />;
     }
-  }
+  };
 
   render() {
+    // console.log(this.props.currentSelection);
     return (
-      <div className='master-detail-element detail'>
-        {this.renderContent()}
-      </div>
+      <div className="master-detail-element detail">{this.renderContent()}</div>
     );
   }
 }
