@@ -17,6 +17,7 @@ class Content extends Component {
         <NoteEditor
           handleSave={this.props.handleSave}
           currentSelection={this.props.currentSelection}
+          handleEdit={this.props.handleEdit}
         />
       );
     } else if (this.props.currentSelection !== 0) {

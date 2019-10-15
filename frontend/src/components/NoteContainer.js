@@ -7,7 +7,8 @@ class NoteContainer extends Component {
   state = {
     noteItems: [],
     currentSelection: 0,
-    editStatus: false
+    editStatus: false,
+    searchInput: ""
   };
 
   componentDidMount() {
@@ -19,8 +20,13 @@ class NoteContainer extends Component {
       .then(response => response.json())
       .then(notes => {
         //console.log("All notes from API Backend", notes);
+        const filteredNotes = notes.filter(note =>
+          note.title.includes(this.state.searchInput)
+        );
+        console.log("filteredNotes: ", filteredNotes);
+
         this.setState({
-          noteItems: notes
+          noteItems: filteredNotes
         });
       });
   };
@@ -38,9 +44,9 @@ class NoteContainer extends Component {
   };
 
   handleEdit = event => {
-    //console.log("handleEdit event = ", event);
+    console.log("handleEdit event = ", event);
     this.setState({
-      editStatus: true
+      editStatus: !this.state.editStatus
     });
   };
 
@@ -67,10 +73,17 @@ class NoteContainer extends Component {
       });
   };
 
+  searchNow = input => {
+    this.setState({
+      searchInput: input
+    });
+    this.fetchNotes();
+  };
+
   render() {
     return (
       <Fragment>
-        <Search />
+        <Search searchNow={this.searchNow} />
         <div className="container">
           <Sidebar
             handleClick={this.handleClick}
